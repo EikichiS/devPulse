@@ -1,9 +1,13 @@
 package dev.simongarcia.devpulse.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "repository_analyses")
+@Getter
+@Setter
 public class RepositoryAnalysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

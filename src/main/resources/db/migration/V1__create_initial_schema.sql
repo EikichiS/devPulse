@@ -7,7 +7,7 @@
   );
 
   CREATE TABLE repositories (
-      git_repo_id VARCHAR(32) PRIMARY KEY,
+      git_repo_id BIGINT PRIMARY KEY,
       app_user_id BIGINT NOT NULL REFERENCES app_users(git_hub_id),
       name VARCHAR(255) NOT NULL, full_name VARCHAR(500) NOT NULL,
       primary_language VARCHAR(100),
@@ -26,7 +26,7 @@
 
   CREATE TABLE repository_analyses (
       id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-      repository_id VARCHAR(32) NOT NULL REFERENCES repositories(git_repo_id),
+      repository_id BIGINT NOT NULL REFERENCES repositories(git_repo_id),
       analysis_job_id VARCHAR(36) NOT NULL REFERENCES analysis_jobs(id),
       language_breakdown TEXT,
       detected_technologies TEXT,
