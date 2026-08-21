@@ -15,7 +15,7 @@ class RepositoryAnalysisServiceTest {
     void analyzeAllReposDetectaTecnologiasReales() throws Exception {
         GitHubClient client = new GitHubClient();
         TechnologyDetector detector = new TechnologyDetector();
-        RepositoryAnalysisService service = new RepositoryAnalysisService(client, detector,null,null,null);
+        RepositoryAnalysisService service = new RepositoryAnalysisService(client, detector, null, null, null, null);
         String token = System.getenv("GITHUB_PAT");
 
         Map<String, List<DetectedTechnology>> results = service.analyzeAllRepos(token);

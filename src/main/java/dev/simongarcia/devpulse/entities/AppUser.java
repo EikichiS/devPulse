@@ -1,6 +1,8 @@
 package dev.simongarcia.devpulse.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.simongarcia.devpulse.security.EncryptedStringConverter;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,6 +21,7 @@ public class AppUser {
     private String username;
     private String avatarUrl;
     @JsonIgnore
+    @Convert(converter = EncryptedStringConverter.class)
     private String accessToken;
     private LocalDateTime createdAt;
 

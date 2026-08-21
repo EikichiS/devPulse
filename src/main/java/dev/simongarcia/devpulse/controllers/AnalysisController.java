@@ -5,9 +5,10 @@ import dev.simongarcia.devpulse.entities.AppUser;
 import dev.simongarcia.devpulse.repositories.AnalysisJobRepository;
 import dev.simongarcia.devpulse.repositories.AppUserRepository;
 import dev.simongarcia.devpulse.services.RepositoryAnalysisService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,18 +28,25 @@ public class AnalysisController {
     }
 
     @PostMapping
-    public ResponseEntity<AnalysisJob> triggerAnalysis(@AuthenticationPrincipal OAuth2User principal) {
-        long gitHubId = ((Number) principal.getAttributes().get("id")).longValue();
+    public ResponseEntity<AnalysisJob> triggerAnalysis(@AuthenticationPrincipal Jwt jwt) {
+        long gitHubId = Long.parseLong(jwt.getSubject());
         AppUser appUser = appUserRepository.findById(gitHubId).orElseThrow();
 
-        AnalysisJob job = repositoryAnalysisService.runAnalysis(appUser);
+        AnalysisJob job = repositoryAnalysisService.createPendingJob(appUser);
+        repositoryAnalysisService.processAnalysis(job, appUser);
 
-        return ResponseEntity.ok(job);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(job);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnalysisJob> getAnalysis(@PathVariable String id) {
+    public ResponseEntity<AnalysisJob> getAnalysis(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
+        long gitHubId = Long.parseLong(jwt.getSubject());
         AnalysisJob job = analysisJobRepository.findById(id).orElseThrow();
+
+        if (job.getAppUser().getGitHubId() != gitHubId) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         return ResponseEntity.ok(job);
     }
 

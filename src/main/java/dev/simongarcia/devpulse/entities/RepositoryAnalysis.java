@@ -23,4 +23,5 @@ public class RepositoryAnalysis {
     private boolean hasCi;
     private boolean isDockerized;
     private boolean hasTests;
+    private boolean hasReadme;
 }

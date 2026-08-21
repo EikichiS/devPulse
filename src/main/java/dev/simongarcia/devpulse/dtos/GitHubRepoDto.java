@@ -9,6 +9,7 @@ public record GitHubRepoDto(
         String name,
         @JsonProperty("full_name") String fullName,
         String language,
-        @JsonProperty("private") boolean isPrivate
+        @JsonProperty("private") boolean isPrivate,
+        @JsonProperty("pushed_at") String pushedAt
 ) {
 }

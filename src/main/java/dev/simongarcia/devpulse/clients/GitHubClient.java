@@ -41,6 +41,17 @@ public class GitHubClient {
                 .body(GitHubFileContentDto.class);
     }
 
-
+    public boolean pathExists(String accessToken, String owner, String repo, String path) {
+        try {
+            restClient.get()
+                    .uri("/repos/{owner}/{repo}/contents/{path}", owner, repo, path)
+                    .headers(httpHeaders -> httpHeaders.setBearerAuth(accessToken))
+                    .retrieve()
+                    .toBodilessEntity();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }
