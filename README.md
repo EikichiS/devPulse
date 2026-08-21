@@ -21,18 +21,3 @@ export GITHUB_CLIENT_ID=...
 export GITHUB_CLIENT_SECRET=...
 ./mvnw spring-boot:run
 ```
-
-## Roadmap
-
-**v1 (en construcción)**
-- [ ] Login con GitHub (OAuth2)
-- [ ] Cliente para GitHub REST/GraphQL API (repos, lenguajes, actividad)
-- [ ] Inspección estática de archivos clave → detección de tecnologías con evidencia
-- [ ] Persistencia (usuarios, repos, jobs de análisis, perfiles)
-- [ ] Patrón asíncrono `POST /analyses` → `202 Accepted` + `GET /analyses/{id}`
-- [ ] CI (GitHub Actions) + Docker
-
-**Diferido (evaluar según necesidad real, no por adelantado)**
-- GitHub App en vez de OAuth App (permisos granulares, installation tokens)
-- Webhooks + validación HMAC
-- Procesamiento de eventos vía Kafka
